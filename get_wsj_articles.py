@@ -1,6 +1,12 @@
+"""
+Functionality for scraping WSJ's news archive to get 
+headlines and summaries.
+"""
 
+# load libraries and variables
 import datetime
 import time
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
@@ -8,13 +14,7 @@ import pandas as pd
 
 from config import base_url, headline_class
 
-# page = requests.get(URL)
-# soup = BeautifulSoup(page.content, 'html.parser')
-# tags = [tag.name for tag in soup.find_all()]
-# print(tags)
-# for child in head_tag.descendants:
-#     print(child)
-
+# define functions
 def get_sd_url(current_date):
 	"""
 	Get the URL for a single date.
@@ -99,6 +99,7 @@ def get_wsj_articles(start_date, end_date, logging = False):
 	wsj_articles = pd.concat(wsj_articles)
 	return(wsj_articles)
 
+# example usage
 if __name__ == '__main__':
 	# set variables
 	start_time = time.time()
@@ -109,6 +110,3 @@ if __name__ == '__main__':
 	print(get_wsj_articles(start_date, end_date, logging = True))
 	elapsed_time = round((time.time() - start_time) / 60, 2)
 	print('------- Runtime: {} minutes -------'.format(elapsed_time))
-
-
-
