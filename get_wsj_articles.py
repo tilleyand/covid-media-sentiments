@@ -8,11 +8,11 @@ import datetime
 import time
 
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
 from bs4 import BeautifulSoup
 import pandas as pd
 
-from config import base_url, headline_class
+from config import base_url, headline_class, webdriver_wait_time
 
 # define functions
 def get_sd_url(current_date):
@@ -44,6 +44,7 @@ def get_wsj_articles_sd(current_date, logging = False):
 	URL = get_sd_url(current_date)
 	driver = webdriver.Chrome()
 	driver.get(URL)
+	WebDriverWait(driver, webdriver_wait_time)
 	if logging:
 		print(driver.title)
 	soup = BeautifulSoup(driver.page_source, 'html.parser')
@@ -88,7 +89,7 @@ def get_wsj_articles(start_date, end_date, logging = False):
 	# loop through dates, adding data to list of DataFrames
 	wsj_articles = []
 	current_date = start_date
-	one_day = datetime.timedelta(days=1)
+	one_day = datetime.timedelta(days = 1)
 	while(current_date <= end_date):
 		# get date's articles, iterate
 		cd_articles = get_wsj_articles_sd(current_date, logging)
